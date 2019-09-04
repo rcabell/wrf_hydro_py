@@ -243,7 +243,10 @@ def _compare_nc_xrcmp(candidate_nc: str,
     candidate_nc = str(candidate_nc)
     reference_nc = str(reference_nc)
 
-    ret = xrcmp(can_file=candidate_nc, ref_file=reference_nc, log_file=log_file_path,
+    if '/' not in log_file_path:
+        log_file_path = pathlib.Path(candidate_nc).parent / pathlib.Path(log_file_path)
+
+    ret = xrcmp(can_file=candidate_nc, ref_file=reference_nc, log_file=str(log_file_path),
                 exclude_vars=exclude_vars)
     if ret != 0:
         if stats_only:
